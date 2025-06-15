@@ -1,0 +1,86 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    string name;
+    int age;
+    Node* next_pointer;
+    Node* prev_pointer;
+
+    Node(string n = "", int a = 0) {
+        name = n;
+        age = a;
+        next_pointer = nullptr;
+        prev_pointer = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+    Node* tail;
+
+    LinkedList() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void insert_node(Node* new_node) {
+        if (head == nullptr) {
+            head = tail = new_node;
+        } else {
+            tail->next_pointer = new_node;
+            new_node->prev_pointer = tail;
+            tail = new_node;
+        }
+    }
+
+    void delete_node(Node* node_to_delete) {
+        if (node_to_delete == nullptr) return;
+
+        if (node_to_delete == head) {
+            head = head->next_pointer;
+            if (head) head->prev_pointer = nullptr;
+        } else if (node_to_delete == tail) {
+            tail = tail->prev_pointer;
+            if (tail) tail->next_pointer = nullptr;
+        } else {
+            node_to_delete->prev_pointer->next_pointer = node_to_delete->next_pointer;
+            node_to_delete->next_pointer->prev_pointer = node_to_delete->prev_pointer;
+        }
+
+        delete node_to_delete;
+    }
+
+    void display_list() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->name << " ";
+            current = current->next_pointer;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Node* node1 = new Node("sarah", 20);
+    Node* node2 = new Node("albert", 21);
+    Node* node3 = new Node("freddy", 22);
+
+    LinkedList std_names;
+
+    std_names.insert_node(node1);
+    std_names.insert_node(node2);
+    std_names.insert_node(node3);
+
+    cout << "Before deletion: ";
+    std_names.display_list();
+
+    std_names.delete_node(node2);
+
+    cout << "After deletion: ";
+    std_names.display_list();
+
+    return 0;
+}
