@@ -1,0 +1,50 @@
+//sarah_22011324_LAB1
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+// student database
+struct Student {
+    int id;
+    string name;
+    int contact;
+    string email;
+};
+
+int main() {
+    // automate
+    Student student[6]; // index 0 will be unused for simplicity
+
+    // Input section
+    for (int i = 1; i < 6; i++) {
+        cout << "\n**************************\n";
+        cout << "Student " << i << "\n";
+
+        cout << "ID: ";
+        cin >> student[i].id;
+
+        cin.ignore(); // clear newline before getline
+        cout << "Name: ";
+        getline(cin, student[i].name);
+
+        cout << "Contact: ";
+        cin >> student[i].contact;
+
+        cin.ignore();
+        cout << "Email: ";
+        getline(cin, student[i].email);
+    }
+
+    // Display section
+    cout << "\n===== Student Records =====\n";
+    for (int i = 1; i < 6; i++) {
+        cout << "\nStudent " << i << ":\n";
+        cout << "ID: " << student[i].id << endl;
+        cout << "Name: " << student[i].name << endl;
+        cout << "Contact: " << student[i].contact << endl;
+        cout << "Email: " << student[i].email << endl;
+    }
+
+    return 0;
+}
