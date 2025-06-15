@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
 void sortMatrix(vector<vector<int>>& mat) {
@@ -44,12 +45,7 @@ int main() {
 }
 
 //pt 2 medium
-
 // C++ Code to rotate matrix 180 degree by placing elements in new matrix
-
-#include <iostream>
-#include <vector>
-using namespace std;
 
 // Function to rotate the matrix by 180 degrees
 void rotateMatrix(vector<vector<int>>& mat) {
@@ -88,8 +84,7 @@ int main() {
 
 // A Naive method to find maximum value of mat[d][e]
 // - ma[a][b] such that d > a and e > b
-#include <bits/stdc++.h>
-using namespace std;
+
 #define N 5
 
 // The function returns maximum value A(d,e) - A(a,b)
