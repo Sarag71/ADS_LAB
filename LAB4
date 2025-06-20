@@ -1,0 +1,70 @@
+//sarah_22011324_LAB4
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    string name;
+    int age;
+    Node* next_pointer;
+    Node* prev_pointer;
+
+    Node(string n = "", int a = 0) {
+        name = n;
+        age = a;
+        next_pointer = nullptr;
+        prev_pointer = nullptr;
+    }
+};
+
+class LinkedList {
+public:
+    Node* head;
+    Node* tail;
+
+    LinkedList() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void insert_node(Node* new_node) {
+        if (head == nullptr) {
+            head = tail = new_node;
+        } else {
+            tail->next_pointer = new_node;
+            new_node->prev_pointer = tail;
+            tail = new_node;
+            tail->next_pointer=head;
+        }
+    }
+
+    void display_list() {
+        Node* current = head;
+        do{
+            cout << current->name << " ";
+            current = current->next_pointer;
+        }while (current != head);
+            
+        cout << current->name << endl; //bc it auto becomes head again after alice
+    }
+};
+
+int main() {
+    Node* node1 = new Node("sarah", 20);
+    Node* node2 = new Node("albert", 21);
+    Node* node3 = new Node("freddy", 22);
+    Node* node4 = new Node("Alice", 23);
+
+    LinkedList std_names;
+
+    std_names.insert_node(node1);
+    std_names.insert_node(node2);
+    std_names.insert_node(node3);
+    std_names.insert_node(node4);
+
+    std_names.display_list();
+
+
+    return 0;
+}
