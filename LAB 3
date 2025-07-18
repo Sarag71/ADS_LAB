@@ -86,3 +86,96 @@ int main() {
 
     return 0;
 }
+
+//DOUBLY LINKED LIST!!!!!
+
+class Node {
+public:
+    string name;
+    int age;
+    Node* next;
+    Node* prev;
+
+    Node(string n = "", int a = 0) : name(n), age(a), next(nullptr), prev(nullptr) {}
+};
+
+class DoublyLinkedList {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+
+    void insert_node(Node* new_node) {
+        if (!head) {
+            head = tail = new_node;
+        } else {
+            tail->next = new_node;
+            new_node->prev = tail;
+            tail = new_node;
+        }
+    }
+
+    void delete_node(Node* node_to_delete) {
+        if (!node_to_delete) return;
+
+        if (node_to_delete == head) {
+            head = head->next;
+            if (head) head->prev = nullptr;
+            if (node_to_delete == tail) tail = nullptr;
+        } else if (node_to_delete == tail) {
+            tail = tail->prev;
+            if (tail) tail->next = nullptr;
+        } else {
+            node_to_delete->prev->next = node_to_delete->next;
+            node_to_delete->next->prev = node_to_delete->prev;
+        }
+
+        delete node_to_delete;
+    }
+
+    void display_forward() {
+        Node* current = head;
+        while (current) {
+            cout << current->name << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void display_backward() {
+        Node* current = tail;
+        while (current) {
+            cout << current->name << " ";
+            current = current->prev;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Node* node1 = new Node("sarah", 20);
+    Node* node2 = new Node("albert", 21);
+    Node* node3 = new Node("freddy", 22);
+
+    DoublyLinkedList std_names;
+
+    std_names.insert_node(node1);
+    std_names.insert_node(node2);
+    std_names.insert_node(node3);
+
+    cout << "Before deletion (forward): ";
+    std_names.display_forward();
+
+    std_names.delete_node(node2);
+
+    cout << "After deletion (forward): ";
+    std_names.display_forward();
+
+    cout << "After deletion (backward): ";
+    std_names.display_backward();
+
+    return 0;
+}
+
