@@ -1,102 +1,101 @@
-//sarah_22011324_lab 8 -> searching trees
+//sarah_22011324_lab 8 binary search tree
 
 #include <iostream>
 using namespace std;
 
-// Node structure
+// Node structure for the binary search tree
 class Node {
 public:
-    string name;
+    int value;
     Node* left;
     Node* right;
 
-    Node(const string& n) : name(n), left(nullptr), right(nullptr) {}
+    Node(int v) : value(v), left(nullptr), right(nullptr) {}
 };
 
-// Binary Seach Tree class
+// Binary search tree class
 class Tree {
-private:
+public:
     Node* root;
 
-    // Recursive helper for searching
-    Node* search_recursive(Node* current, const string& target) {
-        if (!current) return nullptr;
-        if (current->name == target) return current;
-
-        Node* found = search_recursive(current->left, target);
-        return found ? found : search_recursive(current->right, target);
-    }
-
-public:
     Tree() : root(nullptr) {}
 
-    void add_root(const string& name) {
-        root = new Node(name);
+    void add_root(int value) {
+        root = new Node(value);
     }
 
-    void add_left(Node* parent, const string& name) {
-        if (parent) parent->left = new Node(name);
+    void add_left(Node* parent, int value) {
+        if (parent)
+            parent->left = new Node(value);
     }
 
-    void add_right(Node* parent, const string& name) {
-        if (parent) parent->right = new Node(name);
-    }
-
-    Node* get_root() {
-        return root;
-    }
-
-    Node* search(const string& target) {
-        return search_recursive(root, target);
+    void add_right(Node* parent, int value) {
+        if (parent)
+            parent->right = new Node(value);
     }
 
     void display_structure() {
         if (!root) return;
 
-        cout << "Root: " << root->name << endl;
+        cout << "Root: " << root->value << endl;
 
         if (root->left) {
-            cout << "Left child of root: " << root->left->name << endl;
+            cout << "Left child of root: " << root->left->value << endl;
+
             if (root->left->left)
-                cout << "Left child of " << root->left->name << ": " << root->left->left->name << endl;
+                cout << "Left child of " << root->left->value << ": " << root->left->left->value << endl;
+
             if (root->left->right)
-                cout << "Right child of " << root->left->name << ": " << root->left->right->name << endl;
+                cout << "Right child of " << root->left->value << ": " << root->left->right->value << endl;
         }
 
         if (root->right) {
-            cout << "Right child of root: " << root->right->name << endl;
+            cout << "Right child of root: " << root->right->value << endl;
+
             if (root->right->left)
-                cout << "Left child of " << root->right->name << ": " << root->right->left->name << endl;
+                cout << "Left child of " << root->right->value << ": " << root->right->left->value << endl;
+
             if (root->right->right)
-                cout << "Right child of " << root->right->name << ": " << root->right->right->name << endl;
+                cout << "Right child of " << root->right->value << ": " << root->right->right->value << endl;
         }
+    }
+
+    // Binary Search Method (Divide and Search)
+    Node* search(Node* current, int target) {
+        if (!current)
+            return nullptr;
+
+        if (target == current->value)
+            return current;
+        else if (target < current->value)
+            return search(current->left, target);
+        else
+            return search(current->right, target);
     }
 };
 
 int main() {
     Tree tree;
 
-    tree.add_root("A");
-    Node* root = tree.get_root();
-
-    tree.add_left(root, "B");
-    tree.add_right(root, "C");
-
-    tree.add_left(root->left, "D");
-    tree.add_right(root->left, "E");
-    tree.add_left(root->right, "F");
-    tree.add_right(root->right, "G");
+    // Manually building BST (must follow BST rules for binary search to work)
+    tree.add_root(50);
+    tree.add_left(tree.root, 30);
+    tree.add_right(tree.root, 70);
+    tree.add_left(tree.root->left, 20);
+    tree.add_right(tree.root->left, 40);
+    tree.add_left(tree.root->right, 60);
+    tree.add_right(tree.root->right, 80);
 
     tree.display_structure();
 
-    // Search for a node
-    string target = "E";
-    Node* result = tree.search(target);
+    // Searching for a value
+    int target = 60;
+    Node* found = tree.search(tree.root, target);
 
-    if (result)
-        cout << "\nNode '" << target << "' found." << endl;
+    if (found)
+        cout << "\nValue " << target << " found in the tree." << endl;
     else
-        cout << "\nNode '" << target << "' not found." << endl;
+        cout << "\nValue " << target << " not found in the tree." << endl;
 
     return 0;
 }
