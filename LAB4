@@ -66,5 +66,86 @@ int main() {
     std_names.display_list();
 
 
+
+
+    return 0;
+}
+
+//Doubly circular linked list!!!!
+
+class Node {
+public:
+    string name;
+    int age;
+    Node* next;
+    Node* prev;
+
+    Node(const string& n = "", int a = 0) : name(n), age(a), next(nullptr), prev(nullptr) {}
+};
+
+class DoublyCircularLinkedList {
+private:
+    Node* head;
+    Node* tail;
+
+public:
+    DoublyCircularLinkedList() : head(nullptr), tail(nullptr) {}
+
+    void insert_node(Node* new_node) {
+        if (!head) {
+            head = tail = new_node;
+            head->next = head;
+            head->prev = head;
+        } else {
+            tail->next = new_node;
+            new_node->prev = tail;
+            new_node->next = head;
+            head->prev = new_node;
+            tail = new_node;
+        }
+    }
+
+    void display_forward() {
+        if (!head) return;
+
+        Node* current = head;
+        do {
+            cout << current->name << " ";
+            current = current->next;
+        } while (current != head);
+        cout << endl;
+    }
+
+    void display_backward() {
+        if (!tail) return;
+
+        Node* current = tail;
+        do {
+            cout << current->name << " ";
+            current = current->prev;
+        } while (current != tail);
+        cout << endl;
+    }
+};
+
+int main() {
+    Node* node1 = new Node("sarah", 20);
+    Node* node2 = new Node("albert", 21);
+    Node* node3 = new Node("freddy", 22);
+    Node* node4 = new Node("alice", 23);
+
+    DoublyCircularLinkedList std_names;
+
+    std_names.insert_node(node1);
+    std_names.insert_node(node2);
+    std_names.insert_node(node3);
+    std_names.insert_node(node4);
+
+    cout << "Display Forward: ";
+    std_names.display_forward();
+
+    cout << "Display Backward: ";
+    std_names.display_backward();
+
     return 0;
 }
