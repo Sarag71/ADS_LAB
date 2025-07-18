@@ -1,0 +1,86 @@
+// sarah_22011324_LAB4 - Stack version
+
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    string name;
+    int age;
+    Node* next;
+
+    Node(string n = "", int a = 0) {
+        name = n;
+        age = a;
+        next = nullptr;
+    }
+};
+
+class Stack {
+private:
+    Node* top;
+
+public:
+    Stack() {
+        top = nullptr;
+    }
+
+    void push(Node* new_node) {
+        new_node->next = top;
+        top = new_node;
+    }
+
+    void pop() {
+        if (top == nullptr) {
+            cout << "Stack is empty. Cannot pop.\n";
+            return;
+        }
+
+        Node* temp = top;
+        top = top->next;
+        delete temp;
+    }
+
+    void display_stack() {
+        Node* current = top;
+        while (current != nullptr) {
+            cout << current->name << " (" << current->age << ")" << endl;
+            current = current->next;
+        }
+    }
+
+    bool is_empty() {
+        return top == nullptr;
+    }
+
+    ~Stack() {
+        while (!is_empty()) {
+            pop();
+        }
+    }
+};
+
+int main() {
+    Node* node1 = new Node("sarah", 20);
+    Node* node2 = new Node("albert", 21);
+    Node* node3 = new Node("freddy", 22);
+    Node* node4 = new Node("alice", 23);
+
+    Stack student_stack;
+
+    student_stack.push(node1);
+    student_stack.push(node2);
+    student_stack.push(node3);
+    student_stack.push(node4);
+
+    cout << "Stack content (Top to Bottom):\n";
+    student_stack.display_stack();
+
+    cout << "\nPopping one item...\n";
+    student_stack.pop();
+
+    cout << "\nStack after pop:\n";
+    student_stack.display_stack();
+
+    return 0;
+}
