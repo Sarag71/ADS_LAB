@@ -1,0 +1,139 @@
+//sarah_22011324 LAB 9 BFS and DFS
+#include <iostream>
+#include <queue>    // For BFS
+using namespace std;
+
+// Node structure
+class Node {
+public:
+    int value;
+    Node* left;
+    Node* right;
+
+    Node(int v) : value(v), left(nullptr), right(nullptr) {}
+};
+
+// Binary Search Tree
+class Tree {
+public:
+    Node* root;
+
+    Tree() : root(nullptr) {}
+
+    void add_root(int value) {
+        root = new Node(value);
+    }
+
+    void add_left(Node* parent, int value) {
+        if (parent)
+            parent->left = new Node(value);
+    }
+
+    void add_right(Node* parent, int value) {
+        if (parent)
+            parent->right = new Node(value);
+    }
+
+    void display_structure() {
+        if (!root) return;
+
+        cout << "Root: " << root->value << endl;
+
+        if (root->left) {
+            cout << "Left child of root: " << root->left->value << endl;
+
+            if (root->left->left)
+                cout << "Left child of " << root->left->value << ": " << root->left->left->value << endl;
+
+            if (root->left->right)
+                cout << "Right child of " << root->left->value << ": " << root->left->right->value << endl;
+        }
+
+        if (root->right) {
+            cout << "Right child of root: " << root->right->value << endl;
+
+            if (root->right->left)
+                cout << "Left child of " << root->right->value << ": " << root->right->left->value << endl;
+
+            if (root->right->right)
+                cout << "Right child of " << root->right->value << ": " << root->right->right->value << endl;
+        }
+    }
+
+    // 🔍 Binary Search
+    Node* search(Node* current, int target) {
+        if (!current)
+            return nullptr;
+
+        if (target == current->value)
+            return current;
+        else if (target < current->value)
+            return search(current->left, target);
+        else
+            return search(current->right, target);
+    }
+
+    // 🧠 DFS - Preorder Traversal
+    void dfs(Node* node) {
+        if (!node) return;
+        cout << node->value << " ";
+        dfs(node->left);
+        dfs(node->right);
+    }
+
+    // 📦 BFS - Level Order Traversal
+    void bfs(Node* node) {
+        if (!node) return;
+
+        queue<Node*> q;
+        q.push(node);
+
+        while (!q.empty()) {
+            Node* current = q.front();
+            q.pop();
+
+            cout << current->value << " ";
+
+            if (current->left)
+                q.push(current->left);
+            if (current->right)
+                q.push(current->right);
+        }
+    }
+};
+
+int main() {
+    Tree tree;
+
+    // Manually build the BST
+    tree.add_root(50);
+    tree.add_left(tree.root, 30);
+    tree.add_right(tree.root, 70);
+    tree.add_left(tree.root->left, 20);
+    tree.add_right(tree.root->left, 40);
+    tree.add_left(tree.root->right, 60);
+    tree.add_right(tree.root->right, 80);
+
+    tree.display_structure();
+
+    // 🔎 Search
+    int target = 60;
+    Node* found = tree.search(tree.root, target);
+
+    if (found)
+        cout << "\nValue " << target << " found in the tree." << endl;
+    else
+        cout << "\nValue " << target << " not found in the tree." << endl;
+
+    // 🔁 DFS
+    cout << "\nDFS (Pre-order traversal): ";
+    tree.dfs(tree.root);
+    cout << endl;
+
+    // 🔁 BFS
+    cout << "BFS (Level-order traversal): ";
+    tree.bfs(tree.root);
+    cout << endl;
+
+    return 0;
+}
